@@ -1,13 +1,13 @@
-import {DefaultCrudRepository} from '@loopback/repository';
-import {Comentario, ComentarioRelations} from '../models';
-import {MongodbDataSource} from '../datasources';
 import {inject} from '@loopback/core';
+import {DefaultCrudRepository} from '@loopback/repository';
+import {MongodbDataSource} from '../datasources';
+import {Comentario, ComentarioRelations} from '../models';
 
 export class ComentarioRepository extends DefaultCrudRepository<
   Comentario,
-  typeof Comentario.prototype.id_comentario,
+  typeof Comentario.prototype.id,
   ComentarioRelations
-> {
+  > {
   constructor(
     @inject('datasources.mongodb') dataSource: MongodbDataSource,
   ) {

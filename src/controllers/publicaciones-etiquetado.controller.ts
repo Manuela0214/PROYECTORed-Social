@@ -3,7 +3,7 @@ import {
   CountSchema,
   Filter,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -13,18 +13,15 @@ import {
   param,
   patch,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
-import {
-  Publicaciones,
-  Etiquetado,
-} from '../models';
+import {Etiquetado, Publicaciones} from '../models';
 import {PublicacionesRepository} from '../repositories';
 
 export class PublicacionesEtiquetadoController {
   constructor(
     @repository(PublicacionesRepository) protected publicacionesRepository: PublicacionesRepository,
-  ) { }
+  ) {}
 
   @get('/publicaciones/{id}/etiquetados', {
     responses: {
@@ -54,7 +51,7 @@ export class PublicacionesEtiquetadoController {
     },
   })
   async create(
-    @param.path.string('id') id: typeof Publicaciones.prototype.id_publicacion,
+    @param.path.string('id') id: typeof Publicaciones.prototype.id,
     @requestBody({
       content: {
         'application/json': {

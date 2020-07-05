@@ -1,16 +1,16 @@
-import {DefaultCrudRepository, repository, HasManyRepositoryFactory} from '@loopback/repository';
-import {Publicaciones, PublicacionesRelations, Etiquetado} from '../models';
+import {Getter, inject} from '@loopback/core';
+import {DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
-import {inject, Getter} from '@loopback/core';
+import {Etiquetado, Publicaciones, PublicacionesRelations} from '../models';
 import {EtiquetadoRepository} from './etiquetado.repository';
 
 export class PublicacionesRepository extends DefaultCrudRepository<
   Publicaciones,
-  typeof Publicaciones.prototype.id_publicacion,
+  typeof Publicaciones.prototype.id,
   PublicacionesRelations
-> {
+  > {
 
-  public readonly etiquetados: HasManyRepositoryFactory<Etiquetado, typeof Publicaciones.prototype.id_publicacion>;
+  public readonly etiquetados: HasManyRepositoryFactory<Etiquetado, typeof Publicaciones.prototype.id>;
 
   constructor(
     @inject('datasources.mongodb') dataSource: MongodbDataSource, @repository.getter('EtiquetadoRepository') protected etiquetadoRepositoryGetter: Getter<EtiquetadoRepository>,
