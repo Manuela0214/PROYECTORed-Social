@@ -10,4 +10,4 @@ export * from './oferta.repository';
 export * from './publicaciones.repository';
 export * from './usuario.repository';
 export * from './videojuego.repository';
-//ola
+export * from './registro.repository';
