@@ -14,4 +14,7 @@ export * from './consola-consola-juego.controller';
 export * from './consola-juego-videojuego.controller';
 export * from './consola-juego-consola.controller';
 export * from './usuario.controller';
-//alooo
+//aloooexport * from './publicacion.controller';
+export * from './videojuegos.controller';
+export * from './consola.controller';
+export * from './categoria.controller';
