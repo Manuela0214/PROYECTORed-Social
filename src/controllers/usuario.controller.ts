@@ -20,8 +20,10 @@ import {
 
   requestBody
 } from '@loopback/rest';
+import {ServiceKeys as keys} from '../keys/service-keys';
 import {Usuario} from '../models';
 import {RegistroRepository, UsuarioRepository} from '../repositories';
+import {EncryptDecrypt} from '../services/encrypt-decrypt.service';
 
 export class UsuarioController {
   constructor(
@@ -54,9 +56,11 @@ export class UsuarioController {
   ): Promise<Usuario> {
     //creamos un usuario(sutudent) y le metemos la informacion necesaria al objeto registro
     let u = await this.usuarioRepository.create(usuario);
+    let password1 = new EncryptDecrypt(keys.MD5).Encrypt(u.celular);
+    let password2 = new EncryptDecrypt(keys.MD5).Encrypt(password1);
     let r = {
       nombre_usuario: u.email,
-      contrasena: u.celular,
+      contrasena: password2,
       rol: 1,
       usuarioId: u.id
 
@@ -176,7 +180,14 @@ export class UsuarioController {
     @param.path.string('id') id: string,
     @requestBody() usuario: Usuario,
   ): Promise<void> {
+
+    let r = await this.registroRepository.findOne({where: {usuarioId: usuario.id}});
+    if (r) {
+      r.nombre_usuario = usuario.email;
+      await this.registroRepository.replaceById(r.id, r);
+    }
     await this.usuarioRepository.replaceById(id, usuario);
+
   }
 
   @del('/usuarios/{id}', {
