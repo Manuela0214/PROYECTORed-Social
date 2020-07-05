@@ -1,8 +1,8 @@
-import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
-import {Usuario} from './usuario.model';
+import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
 import {Comentario} from './comentario.model';
-import {Videojuego} from './videojuego.model';
 import {Etiquetado} from './etiquetado.model';
+import {Usuario} from './usuario.model';
+import {Videojuego} from './videojuego.model';
 
 @model()
 export class Publicaciones extends Entity {
@@ -11,7 +11,7 @@ export class Publicaciones extends Entity {
     id: true,
     generated: true,
   })
-  id_publicacion?: string;
+  id?: string;
 
   @property({
     type: 'string',

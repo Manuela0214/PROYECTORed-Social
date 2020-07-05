@@ -1,4 +1,4 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {Publicaciones} from './publicaciones.model';
 
 @model()
@@ -8,7 +8,7 @@ export class Comentario extends Entity {
     id: true,
     generated: true,
   })
-  id_comentario?: string;
+  id?: string;
 
   @property({
     type: 'string',
