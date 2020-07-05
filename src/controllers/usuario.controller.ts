@@ -52,6 +52,7 @@ export class UsuarioController {
     })
     usuario: Omit<Usuario, 'id'>,
   ): Promise<Usuario> {
+    //creamos un usuario(sutudent) y le metemos la informacion necesaria al objeto registro
     let u = await this.usuarioRepository.create(usuario);
     let r = {
       nombre_usuario: u.email,
