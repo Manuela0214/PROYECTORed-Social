@@ -21,3 +21,4 @@ export * from './publicacion.controller';
 export * from './mensaje.controller';
 export * from './usuario-registro.controller';
 export * from './registro-usuario.controller';
+export * from './registro.controller';
