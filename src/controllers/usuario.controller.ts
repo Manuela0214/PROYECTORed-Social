@@ -56,7 +56,9 @@ export class UsuarioController {
   ): Promise<Usuario> {
     //creamos un usuario(sutudent) y le metemos la informacion necesaria al objeto registro
     let u = await this.usuarioRepository.create(usuario);
+    //con passwor1 encriptamos la contraseña que en este caso es el celular
     let password1 = new EncryptDecrypt(keys.MD5).Encrypt(u.celular);
+    //con password2 encriptamos por segunda vuelta, el primer cifrado
     let password2 = new EncryptDecrypt(keys.MD5).Encrypt(password1);
     let r = {
       nombre_usuario: u.email,
