@@ -1,20 +1,25 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Categoria} from '../models';
 import {CategoriaRepository} from '../repositories';
@@ -22,9 +27,11 @@ import {CategoriaRepository} from '../repositories';
 export class CategoriaController {
   constructor(
     @repository(CategoriaRepository)
-    public categoriaRepository : CategoriaRepository,
+    public categoriaRepository: CategoriaRepository,
   ) {}
 
+
+  @authenticate('TokenStrategy')
   @post('/categoria', {
     responses: {
       '200': {
@@ -49,6 +56,8 @@ export class CategoriaController {
     return this.categoriaRepository.create(categoria);
   }
 
+
+  @authenticate('TokenStrategy')
   @get('/categoria/count', {
     responses: {
       '200': {
@@ -63,6 +72,9 @@ export class CategoriaController {
     return this.categoriaRepository.count(where);
   }
 
+
+
+  @authenticate('TokenStrategy')
   @get('/categoria', {
     responses: {
       '200': {
