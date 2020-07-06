@@ -6,8 +6,10 @@ import {
 
   requestBody
 } from '@loopback/rest';
-import {RegistroRepository} from '../repositories';
+import {RegistroRepository, UsuarioRepository} from '../repositories';
 import {AuthService} from '../services/auth.service';
+import { SmsNotification, Usuario } from '../models';
+import { NotificationService } from '../services/notification.service';
 
 
 
@@ -33,6 +35,8 @@ export class RegistroController {
   constructor(
     @repository(RegistroRepository)
     public registroRepository: RegistroRepository,
+    @repository(UsuarioRepository)
+    public userRepository:UsuarioRepository
   ) {
     this.authService = new AuthService(this.registroRepository);
   }
@@ -81,13 +85,29 @@ export class RegistroController {
         switch (paswordResetData.type) {
           case 1:
             //envío sms
-            console.log ("Sending sms: "+ randomPassword);
-            return true;
+           
+           let usuario = await this.userRepository.findOne({where:{email: paswordResetData.nombre_usuario}});
+          if (usuario){
+           let notification = new SmsNotification({
+              body: `Su nueva contraseña es: ${randomPassword}`,
+              to: usuario.celular
+            });
+            let sms = await new NotificationService().SmsNotification(notification);
+            if (sms){
+              console.log("sms message send");
+              return true
+            }
+            throw new HttpErrors[400]("Phone is not found");
+            
+          }
+          throw new HttpErrors[400]("user not found");
+          
             break;
           case 2:
             //envío mail
             console.log ("Sending mail: "+ randomPassword);
             return true;
+          
             break;
           default:
             throw new HttpErrors[400]("This notification type is not supported.");
