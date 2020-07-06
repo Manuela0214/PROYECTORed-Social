@@ -1,9 +1,10 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -13,18 +14,15 @@ import {
   param,
   patch,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
-import {
-  Usuario,
-  Mensajes,
-} from '../models';
+import {Mensajes, Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
 
 export class UsuarioMensajesController {
   constructor(
     @repository(UsuarioRepository) protected usuarioRepository: UsuarioRepository,
-  ) { }
+  ) {}
 
   @get('/usuarios/{id}/mensajes', {
     responses: {
@@ -45,6 +43,9 @@ export class UsuarioMensajesController {
     return this.usuarioRepository.mensajes(id).find(filter);
   }
 
+  // debe verificar que es un usuario, para poder mandar mensajes
+
+  @authenticate('TokenUsuarioStrategy')
   @post('/usuarios/{id}/mensajes', {
     responses: {
       '200': {
