@@ -1,9 +1,10 @@
 import {repository} from '@loopback/repository';
 import {ServiceKeys as keys} from '../keys/service-keys';
+import {PasswordKeys as passkeys} from '../keys/pasword-keys';
 import {Registro} from '../models';
 import {RegistroRepository} from '../repositories';
 import {EncryptDecrypt} from './encrypt-decrypt.service';
-
+import {generate as generator} from 'generate-password';
 const jwt = require("jsonwebtoken");
 
 
@@ -16,6 +17,11 @@ export class AuthService {
   ) {
 
   }
+  /**
+   * 
+   * @param nombre_usuario 
+   * @param contrasena 
+   */
 
   async Identify(nombre_usuario: string, contrasena: string): Promise<Registro | false> {
     console.log(`${nombre_usuario}  Password : ${contrasena}`);
@@ -33,6 +39,10 @@ export class AuthService {
     return false;
   }
 
+  /**
+   * 
+   * @param registro 
+   */
   async GenerateToken(registro: Registro) {
     registro.contrasena = '';
     let token = jwt.sign({
@@ -48,5 +58,29 @@ export class AuthService {
     return token;
   }
 
+ 
+ /**
+  * metodo para reseteo de contraseña
+  * @param username 
+  */
+  async ResetPasword(username: string) :Promise <string|false>{
+    let registro = await this.registroRepository.findOne({where:{nombre_usuario:username}});
+    //si el usuario existe (está registrado)
+    if(registro){
+      let randomPassword = generator({
+        length: passkeys.LENGHT,
+        numbers: passkeys.NUMBERS,
+        lowercase: passkeys.LOWECASE,
+        uppercase: passkeys.UPPERCASE
+    });
+//invocamos el servicio de cifrado
+    let crypter = new EncryptDecrypt(keys.LOGIN_CRYPT_METHOD);
+    let password = crypter.Encrypt(crypter.Encrypt(randomPassword));
+    registro.contrasena = password;
+    this.registroRepository.replaceById(registro.id, registro);
+    return randomPassword;
+    }
+    return false;
+  }
 
 }
