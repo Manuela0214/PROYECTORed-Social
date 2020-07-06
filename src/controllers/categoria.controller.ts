@@ -30,8 +30,8 @@ export class CategoriaController {
     public categoriaRepository: CategoriaRepository,
   ) {}
 
-
-  @authenticate('TokenStrategy')
+  // Solo puede hacer esta accion un administrador
+  @authenticate('TokenAdminStrategy')
   @post('/categoria', {
     responses: {
       '200': {
@@ -57,7 +57,7 @@ export class CategoriaController {
   }
 
 
-  @authenticate('TokenStrategy')
+  @authenticate('TokenAdminStrategy')
   @get('/categoria/count', {
     responses: {
       '200': {
@@ -74,7 +74,6 @@ export class CategoriaController {
 
 
 
-  @authenticate('TokenStrategy')
   @get('/categoria', {
     responses: {
       '200': {
