@@ -12,3 +12,4 @@ export * from './comentario.model';
 export * from './publicaciones.model';
 export * from './registro.model';
 export * from './sms-notification.model';
+export * from './email-notification.model';

@@ -1,6 +1,7 @@
-import { SmsNotification } from '../models';
+import { SmsNotification, EmailNotification } from '../models';
 import { NotificationDatasource } from '../datasources/notification.datasource';
 const twilio = require('twilio');
+const sgMail = require('@sendgrid/mail');
 
 export class NotificationService{
     async SmsNotification(notification: SmsNotification): Promise<boolean>{
@@ -22,5 +23,31 @@ export class NotificationService{
         }catch(error){
         return false;
         }
+    }
+
+    async MailNotification(notification: EmailNotification): Promise<boolean>{
+        // using Twilio SendGrid's v3 Node.js Library
+        // https://github.com/sendgrid/sendgrid-nodejs
+    try{  
+        sgMail.setApiKey(NotificationDatasource.SENDGRID_API_KEY);
+        const msg = {
+        to: notification.to,
+        from: NotificationDatasource.SENDGRID_FROM,
+        subject: notification.subject,
+        text: notification.textBody,
+        html: notification.body,
+};
+       await sgMail.send(msg).then((data: any) => {
+        console.log(data);
+        return true;
+       }, function(error: any){
+           console.log(error);
+           return false;
+       }); 
+       return true;
+    
+}catch(err){
+    return false;
+}
     }
 }
