@@ -6,8 +6,11 @@ import {
 
   requestBody
 } from '@loopback/rest';
-import {RegistroRepository} from '../repositories';
+import {EmailNotification} from '../models/email-notification.model';
+import {SmsNotification} from '../models/sms-notification.model';
+import {RegistroRepository, UsuarioRepository} from '../repositories';
 import {AuthService} from '../services/auth.service';
+import {NotificationService} from '../services/notification.service';
 
 
 
@@ -34,6 +37,8 @@ export class RegistroController {
   constructor(
     @repository(RegistroRepository)
     public registroRepository: RegistroRepository,
+    @repository(UsuarioRepository)
+    public usuarioRepository: UsuarioRepository
   ) {
     this.authService = new AuthService(this.registroRepository);
   }
@@ -83,16 +88,48 @@ export class RegistroController {
       //1 SMS
       //2 EMAIL
       //...
+      let usuario = await this.usuarioRepository.findOne({where: {email: passwordResetData.nombre_usuario}})
       switch (passwordResetData.type) {
         case 1:
-          //send sms
-          console.log("Senging SMS:" + randomPassword);
-          return true;
+          if (usuario) {
+            //send sms
+            let notification = new SmsNotification({
+              body: `Su nueva contraseña de Instagram es: ${randomPassword}`,
+              to: usuario.celular
+
+            });
+            let sms = await new NotificationService().SmsNotification(notification);
+            if (sms) {
+              console.log("sms message sent")
+              console.log("KMOOON BABYY");
+              return true;
+            }
+            throw new HttpErrors[400]("numero no encontrado");
+          }
+          throw new HttpErrors[400]("usuario no encontrado ");
           break;
         case 2:
           //send email
-          console.log("Senging email:" + randomPassword);
-          return true;
+
+          if (usuario) {
+
+            let notification = new EmailNotification({
+              textBody: `Su nueva contraseña de Instagram es: ${randomPassword}`,
+              htmlBody: `Su nueva contraseña de Instagram es: ${randomPassword}`,
+
+              to: usuario.email,
+              subject: 'Nueva contraseña'
+
+            });
+            let mail = await new NotificationService().MailNotification(notification);
+            if (mail) {
+              console.log("mail message sent")
+              console.log("KMOOON BABYY X22");
+              return true;
+            }
+            throw new HttpErrors[400]("Email no encontrado");
+          }
+          throw new HttpErrors[400]("Usuario no encontrado ");
 
           break;
 
