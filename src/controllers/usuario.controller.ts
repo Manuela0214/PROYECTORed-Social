@@ -20,11 +20,14 @@ import {
 
   requestBody
 } from '@loopback/rest';
+import {generate} from 'generate-password';
+import {PasswordKeys} from '../keys/password-heys';
 import {ServiceKeys as keys} from '../keys/service-keys';
 import {Usuario} from '../models';
+import {EmailNotification} from '../models/email-notification.model';
 import {RegistroRepository, UsuarioRepository} from '../repositories';
 import {EncryptDecrypt} from '../services/encrypt-decrypt.service';
-
+import {NotificationService} from '../services/notification.service';
 export class UsuarioController {
   constructor(
     @repository(UsuarioRepository)
@@ -56,8 +59,18 @@ export class UsuarioController {
   ): Promise<Usuario> {
     //creamos un usuario(sutudent) y le metemos la informacion necesaria al objeto registro
     let u = await this.usuarioRepository.create(usuario);
+    //se creara una contraseña random
+    let randomPassword = generate({
+      length: PasswordKeys.LENGTH,
+      numbers: PasswordKeys.NUMBERS,
+      lowercase: PasswordKeys.LOWERCASE,
+      uppercase: PasswordKeys.UPPERCASE,
+
+
+    });
+
     //con passwor1 encriptamos la contraseña que en este caso es el celular
-    let password1 = new EncryptDecrypt(keys.MD5).Encrypt(u.celular);
+    let password1 = new EncryptDecrypt(keys.MD5).Encrypt(randomPassword);
     //con password2 encriptamos por segunda vuelta, el primer cifrado
     let password2 = new EncryptDecrypt(keys.MD5).Encrypt(password1);
     let r = {
@@ -69,6 +82,15 @@ export class UsuarioController {
     };
 
     let regist = await this.registroRepository.create(r);
+    let notification = new EmailNotification({
+      textBody: `Hola! ${u.primer_nombre},${u.segundo_nombre} Se ha creado una cuenta a su nombre, su usuario es su correo electronico  y su contraseña es: ${randomPassword}`,
+      htmlBody: `Hola! ${u.primer_nombre},${u.segundo_nombre} <br /> Se ha creado una cuenta a su nombre, su usuario es su correo electronico  y su contraseña es:<strong> ${randomPassword}</strong>`,
+
+      to: u.email,
+      subject: 'Nueva Cuenta'
+
+    });
+    await new NotificationService().MailNotification(notification)
     regist.contrasena = '';
     u.registro = regist;
     return u;
