@@ -1,20 +1,25 @@
+
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Consola} from '../models';
 import {ConsolaRepository} from '../repositories';
@@ -22,7 +27,7 @@ import {ConsolaRepository} from '../repositories';
 export class ConsolaController {
   constructor(
     @repository(ConsolaRepository)
-    public consolaRepository : ConsolaRepository,
+    public consolaRepository: ConsolaRepository,
   ) {}
 
   @post('/consola', {

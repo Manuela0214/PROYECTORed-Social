@@ -1,20 +1,25 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Videojuego} from '../models';
 import {VideojuegoRepository} from '../repositories';
@@ -22,9 +27,10 @@ import {VideojuegoRepository} from '../repositories';
 export class VideojuegoController {
   constructor(
     @repository(VideojuegoRepository)
-    public videojuegoRepository : VideojuegoRepository,
+    public videojuegoRepository: VideojuegoRepository,
   ) {}
 
+  @authenticate('TokenAdminStrategy')
   @post('/videojuego', {
     responses: {
       '200': {
