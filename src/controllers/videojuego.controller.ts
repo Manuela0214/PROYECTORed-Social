@@ -55,6 +55,7 @@ export class VideojuegoController {
     return this.videojuegoRepository.create(videojuego);
   }
 
+
   @get('/videojuego/count', {
     responses: {
       '200': {

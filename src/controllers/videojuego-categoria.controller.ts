@@ -1,22 +1,16 @@
+import {repository} from '@loopback/repository';
 import {
-  repository,
-} from '@loopback/repository';
-import {
-  param,
   get,
-  getModelSchemaRef,
+  getModelSchemaRef, param
 } from '@loopback/rest';
-import {
-  Videojuego,
-  Categoria,
-} from '../models';
+import {Categoria, Videojuego} from '../models';
 import {VideojuegoRepository} from '../repositories';
 
 export class VideojuegoCategoriaController {
   constructor(
     @repository(VideojuegoRepository)
     public videojuegoRepository: VideojuegoRepository,
-  ) { }
+  ) {}
 
   @get('/videojuegos/{id}/categoria', {
     responses: {
@@ -36,4 +30,3 @@ export class VideojuegoCategoriaController {
     return this.videojuegoRepository.categoria(id);
   }
 }
-//ola

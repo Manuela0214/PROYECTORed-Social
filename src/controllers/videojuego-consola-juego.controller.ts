@@ -26,26 +26,26 @@ export class VideojuegoConsolaJuegoController {
     @repository(VideojuegoRepository) protected videojuegoRepository: VideojuegoRepository,
   ) { }
 
-  @get('/videojuegos/{id}/consola-juego', {
+  @get('/videojuegos/{id}/consola-juegos', {
     responses: {
       '200': {
-        description: 'Videojuego has one ConsolaJuego',
+        description: 'Array of Videojuego has many ConsolaJuego',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(ConsolaJuego),
+            schema: {type: 'array', items: getModelSchemaRef(ConsolaJuego)},
           },
         },
       },
     },
   })
-  async get(
+  async find(
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<ConsolaJuego>,
-  ): Promise<ConsolaJuego> {
-    return this.videojuegoRepository.consolaJuego(id).get(filter);
+  ): Promise<ConsolaJuego[]> {
+    return this.videojuegoRepository.consolaJuegos(id).find(filter);
   }
 
-  @post('/videojuegos/{id}/consola-juego', {
+  @post('/videojuegos/{id}/consola-juegos', {
     responses: {
       '200': {
         description: 'Videojuego model instance',
@@ -67,10 +67,10 @@ export class VideojuegoConsolaJuegoController {
       },
     }) consolaJuego: Omit<ConsolaJuego, 'id'>,
   ): Promise<ConsolaJuego> {
-    return this.videojuegoRepository.consolaJuego(id).create(consolaJuego);
+    return this.videojuegoRepository.consolaJuegos(id).create(consolaJuego);
   }
 
-  @patch('/videojuegos/{id}/consola-juego', {
+  @patch('/videojuegos/{id}/consola-juegos', {
     responses: {
       '200': {
         description: 'Videojuego.ConsolaJuego PATCH success count',
@@ -90,10 +90,10 @@ export class VideojuegoConsolaJuegoController {
     consolaJuego: Partial<ConsolaJuego>,
     @param.query.object('where', getWhereSchemaFor(ConsolaJuego)) where?: Where<ConsolaJuego>,
   ): Promise<Count> {
-    return this.videojuegoRepository.consolaJuego(id).patch(consolaJuego, where);
+    return this.videojuegoRepository.consolaJuegos(id).patch(consolaJuego, where);
   }
 
-  @del('/videojuegos/{id}/consola-juego', {
+  @del('/videojuegos/{id}/consola-juegos', {
     responses: {
       '200': {
         description: 'Videojuego.ConsolaJuego DELETE success count',
@@ -105,7 +105,6 @@ export class VideojuegoConsolaJuegoController {
     @param.path.string('id') id: string,
     @param.query.object('where', getWhereSchemaFor(ConsolaJuego)) where?: Where<ConsolaJuego>,
   ): Promise<Count> {
-    return this.videojuegoRepository.consolaJuego(id).delete(where);
+    return this.videojuegoRepository.consolaJuegos(id).delete(where);
   }
 }
-//ola

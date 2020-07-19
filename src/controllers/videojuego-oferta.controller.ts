@@ -3,7 +3,7 @@ import {
   CountSchema,
   Filter,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -13,18 +13,15 @@ import {
   param,
   patch,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
-import {
-  Videojuego,
-  Oferta,
-} from '../models';
+import {Oferta, Videojuego} from '../models';
 import {VideojuegoRepository} from '../repositories';
 
 export class VideojuegoOfertaController {
   constructor(
     @repository(VideojuegoRepository) protected videojuegoRepository: VideojuegoRepository,
-  ) { }
+  ) {}
 
   @get('/videojuegos/{id}/ofertas', {
     responses: {
@@ -61,7 +58,7 @@ export class VideojuegoOfertaController {
           schema: getModelSchemaRef(Oferta, {
             title: 'NewOfertaInVideojuego',
             exclude: ['id'],
-            optional: ['idVideojuego']
+            optional: ['videojuegoId']
           }),
         },
       },
@@ -108,4 +105,3 @@ export class VideojuegoOfertaController {
     return this.videojuegoRepository.ofertas(id).delete(where);
   }
 }
-//ola

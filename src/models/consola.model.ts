@@ -1,4 +1,4 @@
-import {Entity, model, property, hasOne} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
 import {ConsolaJuego} from './consola-juego.model';
 
 @model()
@@ -22,8 +22,8 @@ export class Consola extends Entity {
   })
   nombre: string;
 
-  @hasOne(() => ConsolaJuego)
-  consolaJuego: ConsolaJuego;
+  @hasMany(() => ConsolaJuego)
+  consolaJuegos: ConsolaJuego[];
 
   constructor(data?: Partial<Consola>) {
     super(data);
@@ -35,4 +35,3 @@ export interface ConsolaRelations {
 }
 
 export type ConsolaWithRelations = Consola & ConsolaRelations;
-//ola

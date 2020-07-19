@@ -1,4 +1,4 @@
-
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -30,6 +30,8 @@ export class ConsolaController {
     public consolaRepository: ConsolaRepository,
   ) {}
 
+
+  @authenticate('TokenAdminStrategy')
   @post('/consola', {
     responses: {
       '200': {
