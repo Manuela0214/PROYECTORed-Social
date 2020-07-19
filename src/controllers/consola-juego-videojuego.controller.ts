@@ -36,4 +36,3 @@ export class ConsolaJuegoVideojuegoController {
     return this.consolaJuegoRepository.videojuego(id);
   }
 }
-//hola

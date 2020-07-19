@@ -58,22 +58,6 @@ export class MyAuthStrategyProvider implements Provider<Strategy | undefined> {
     // call cb(null, user) when user is authenticated
   }
 
-  VerifyToken(
-    token: string,
-
-    cb: (err: Error | null, user?: object | false) => void,
-  ) {
-    this.authService.VerifyToken(token).then(verification => {
-      if (verification) {
-        return cb(null, verification);
-      } else {
-        return cb(null, false);
-      }
-
-    });
-
-  }
-
 
 
   VerifyUsuarioToken(
@@ -82,9 +66,11 @@ export class MyAuthStrategyProvider implements Provider<Strategy | undefined> {
     cb: (err: Error | null, user?: object | false) => void,
   ) {
     this.authService.VerifyToken(token).then(data => {
+      console.log("INTENTALO")
       if (data && data.rol == 1) {
         return cb(null, data);
       } else {
+        console.log("nooooopppp")
         return cb(null, false);
       }
 

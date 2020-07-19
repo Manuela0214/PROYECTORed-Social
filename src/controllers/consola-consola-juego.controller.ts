@@ -26,26 +26,26 @@ export class ConsolaConsolaJuegoController {
     @repository(ConsolaRepository) protected consolaRepository: ConsolaRepository,
   ) { }
 
-  @get('/consolas/{id}/consola-juego', {
+  @get('/consolas/{id}/consola-juegos', {
     responses: {
       '200': {
-        description: 'Consola has one ConsolaJuego',
+        description: 'Array of Consola has many ConsolaJuego',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(ConsolaJuego),
+            schema: {type: 'array', items: getModelSchemaRef(ConsolaJuego)},
           },
         },
       },
     },
   })
-  async get(
+  async find(
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<ConsolaJuego>,
-  ): Promise<ConsolaJuego> {
-    return this.consolaRepository.consolaJuego(id).get(filter);
+  ): Promise<ConsolaJuego[]> {
+    return this.consolaRepository.consolaJuegos(id).find(filter);
   }
 
-  @post('/consolas/{id}/consola-juego', {
+  @post('/consolas/{id}/consola-juegos', {
     responses: {
       '200': {
         description: 'Consola model instance',
@@ -67,10 +67,10 @@ export class ConsolaConsolaJuegoController {
       },
     }) consolaJuego: Omit<ConsolaJuego, 'id'>,
   ): Promise<ConsolaJuego> {
-    return this.consolaRepository.consolaJuego(id).create(consolaJuego);
+    return this.consolaRepository.consolaJuegos(id).create(consolaJuego);
   }
 
-  @patch('/consolas/{id}/consola-juego', {
+  @patch('/consolas/{id}/consola-juegos', {
     responses: {
       '200': {
         description: 'Consola.ConsolaJuego PATCH success count',
@@ -90,10 +90,10 @@ export class ConsolaConsolaJuegoController {
     consolaJuego: Partial<ConsolaJuego>,
     @param.query.object('where', getWhereSchemaFor(ConsolaJuego)) where?: Where<ConsolaJuego>,
   ): Promise<Count> {
-    return this.consolaRepository.consolaJuego(id).patch(consolaJuego, where);
+    return this.consolaRepository.consolaJuegos(id).patch(consolaJuego, where);
   }
 
-  @del('/consolas/{id}/consola-juego', {
+  @del('/consolas/{id}/consola-juegos', {
     responses: {
       '200': {
         description: 'Consola.ConsolaJuego DELETE success count',
@@ -105,7 +105,6 @@ export class ConsolaConsolaJuegoController {
     @param.path.string('id') id: string,
     @param.query.object('where', getWhereSchemaFor(ConsolaJuego)) where?: Where<ConsolaJuego>,
   ): Promise<Count> {
-    return this.consolaRepository.consolaJuego(id).delete(where);
+    return this.consolaRepository.consolaJuegos(id).delete(where);
   }
 }
-//hola

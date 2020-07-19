@@ -1,8 +1,8 @@
-import {Entity, model, property, hasMany, belongsTo, hasOne} from '@loopback/repository';
-import {Publicaciones} from './publicaciones.model';
-import {Oferta} from './oferta.model';
+import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
 import {Categoria} from './categoria.model';
 import {ConsolaJuego} from './consola-juego.model';
+import {Oferta} from './oferta.model';
+import {Publicaciones} from './publicaciones.model';
 
 @model()
 export class Videojuego extends Entity {
@@ -22,14 +22,17 @@ export class Videojuego extends Entity {
   @hasMany(() => Publicaciones)
   publicaciones: Publicaciones[];
 
-  @hasMany(() => Oferta, {keyTo: 'idVideojuego'})
-  ofertas: Oferta[];
+
+
+
+  @hasMany(() => ConsolaJuego)
+  consolaJuegos: ConsolaJuego[];
 
   @belongsTo(() => Categoria)
   categoriaId: string;
 
-  @hasOne(() => ConsolaJuego)
-  consolaJuego: ConsolaJuego;
+  @hasMany(() => Oferta)
+  ofertas: Oferta[];
 
   constructor(data?: Partial<Videojuego>) {
     super(data);

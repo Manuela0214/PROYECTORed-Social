@@ -73,7 +73,7 @@ export class CategoriaController {
   }
 
 
-
+  @authenticate('TokenUsuarioStrategy')
   @get('/categoria', {
     responses: {
       '200': {

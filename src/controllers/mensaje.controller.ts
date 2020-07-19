@@ -4,17 +4,21 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Mensajes} from '../models';
 import {MensajesRepository} from '../repositories';
@@ -22,7 +26,7 @@ import {MensajesRepository} from '../repositories';
 export class MensajeController {
   constructor(
     @repository(MensajesRepository)
-    public mensajesRepository : MensajesRepository,
+    public mensajesRepository: MensajesRepository,
   ) {}
 
   @post('/mensaje', {
@@ -48,6 +52,7 @@ export class MensajeController {
   ): Promise<Mensajes> {
     return this.mensajesRepository.create(mensajes);
   }
+
 
   @get('/mensaje/count', {
     responses: {
