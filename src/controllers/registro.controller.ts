@@ -56,6 +56,7 @@ export class RegistroController {
 
     : Promise<object> {
     let registro = await this.authService.Identify(credentials.nombre_usuario, credentials.contrasena);
+    console.log(`usuario: ${credentials.nombre_usuario}contraseña: ${credentials.contrasena}`)
     if (registro) {
       let tk = await this.authService.GenerateToken(registro);
       return {
@@ -63,7 +64,7 @@ export class RegistroController {
         token: tk
       }
     } else {
-      throw new HttpErrors[401]("user or password invalida");
+      throw new HttpErrors[401]("Usuario o contraseña invalida");
     }
 
   }
@@ -94,19 +95,19 @@ export class RegistroController {
           if (usuario) {
             //send sms
             let notification = new SmsNotification({
-              body: `Su nueva contraseña de Instagram es: ${randomPassword}`,
+              body: `Su nueva contraseña es: ${randomPassword}`,
               to: usuario.celular
 
             });
             let sms = await new NotificationService().SmsNotification(notification);
             if (sms) {
-              console.log("sms message sent")
+              console.log("sms enviado")
               console.log("KMOOON BABYY");
               return true;
             }
-            throw new HttpErrors[400]("numero no encontrado");
+            throw new HttpErrors[400]("Numero no encontrado");
           }
-          throw new HttpErrors[400]("usuario no encontrado ");
+          throw new HttpErrors[400]("Usuario no encontrado ");
           break;
         case 2:
           //send email
@@ -114,8 +115,8 @@ export class RegistroController {
           if (usuario) {
 
             let notification = new EmailNotification({
-              textBody: `Su nueva contraseña de Instagram es: ${randomPassword}`,
-              htmlBody: `Su nueva contraseña de Instagram es: ${randomPassword}`,
+              textBody: `Su nueva contraseña es: ${randomPassword}`,
+              htmlBody: `Su nueva contraseña es: ${randomPassword}`,
 
               to: usuario.email,
               subject: 'Nueva contraseña'
@@ -123,7 +124,7 @@ export class RegistroController {
             });
             let mail = await new NotificationService().MailNotification(notification);
             if (mail) {
-              console.log("mail message sent")
+              console.log("email enviado")
               console.log("KMOOON BABYY X22");
               return true;
             }
@@ -139,7 +140,7 @@ export class RegistroController {
           break;
       }
     }
-    throw new HttpErrors[400]("User not found")
+    throw new HttpErrors[400]("Usuario no encontrado")
 
 
   }

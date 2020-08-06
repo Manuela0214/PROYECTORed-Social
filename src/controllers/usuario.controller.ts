@@ -83,8 +83,8 @@ export class UsuarioController {
 
     let regist = await this.registroRepository.create(r);
     let notification = new EmailNotification({
-      textBody: `Hola! ${u.primer_nombre},${u.segundo_nombre} Se ha creado una cuenta a su nombre, su usuario es su correo electronico  y su contraseña es: ${randomPassword}`,
-      htmlBody: `Hola! ${u.primer_nombre},${u.segundo_nombre} <br /> Se ha creado una cuenta a su nombre, su usuario es su correo electronico  y su contraseña es:<strong> ${randomPassword}</strong>`,
+      textBody: `Hola! ${u.primer_nombre},${u.primer_apellido} Se ha creado una cuenta a su nombre, su usuario es su correo electronico  y su contraseña es: ${randomPassword}`,
+      htmlBody: `Hola! ${u.primer_nombre},${u.primer_apellido} <br /> Se ha creado una cuenta a su nombre, su usuario es su correo electronico  y su contraseña es:<strong> ${randomPassword}</strong>`,
 
       to: u.email,
       subject: 'Nueva Cuenta'
