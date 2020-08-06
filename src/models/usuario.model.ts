@@ -1,8 +1,8 @@
-import {Entity, model, property, hasMany, hasOne} from '@loopback/repository';
-import {Publicaciones} from './publicaciones.model';
+import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
 import {Amistad} from './amistad.model';
-import {Mensajes} from './mensajes.model';
 import {Etiquetado} from './etiquetado.model';
+import {Mensajes} from './mensajes.model';
+import {Publicaciones} from './publicaciones.model';
 import {Registro} from './registro.model';
 
 @model()
@@ -61,16 +61,16 @@ export class Usuario extends Entity {
   ciudad: string;
 
   @property({
-    type: 'date',
+    type: 'string',
     required: true,
   })
   fecha_nacimiento: string;
-
+  /*
   @property({
     type: 'string',
     required: true,
   })
-  foto_perfil: string;
+  foto_perfil: string;*/
 
   @property({
     type: 'string',
