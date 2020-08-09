@@ -57,7 +57,6 @@ export class CategoriaController {
   }
 
 
-  @authenticate('TokenAdminStrategy')
   @get('/categoria/count', {
     responses: {
       '200': {
@@ -73,7 +72,7 @@ export class CategoriaController {
   }
 
 
-  @authenticate('TokenUsuarioStrategy')
+
   @get('/categoria', {
     responses: {
       '200': {
@@ -95,6 +94,7 @@ export class CategoriaController {
     return this.categoriaRepository.find(filter);
   }
 
+  @authenticate('TokenAdminStrategy')
   @patch('/categoria', {
     responses: {
       '200': {
@@ -136,6 +136,7 @@ export class CategoriaController {
     return this.categoriaRepository.findById(id, filter);
   }
 
+  @authenticate('TokenAdminStrategy')
   @patch('/categoria/{id}', {
     responses: {
       '204': {
@@ -157,6 +158,7 @@ export class CategoriaController {
     await this.categoriaRepository.updateById(id, categoria);
   }
 
+  @authenticate('TokenAdminStrategy')
   @put('/categoria/{id}', {
     responses: {
       '204': {
@@ -171,6 +173,7 @@ export class CategoriaController {
     await this.categoriaRepository.replaceById(id, categoria);
   }
 
+  @authenticate('TokenAdminStrategy')
   @del('/categoria/{id}', {
     responses: {
       '204': {

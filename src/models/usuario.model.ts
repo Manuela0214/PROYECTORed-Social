@@ -65,12 +65,11 @@ export class Usuario extends Entity {
     required: true,
   })
   fecha_nacimiento: string;
-  /*
+
   @property({
-    type: 'string',
-    required: true,
+    type: 'string'
   })
-  foto_perfil: string;*/
+  foto_perfil?: string;
 
   @property({
     type: 'string',
