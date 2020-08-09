@@ -3,6 +3,7 @@ import {Categoria} from './categoria.model';
 import {ConsolaJuego} from './consola-juego.model';
 import {Oferta} from './oferta.model';
 import {Publicaciones} from './publicaciones.model';
+import {Imagen} from './imagen.model';
 
 @model()
 export class Videojuego extends Entity {
@@ -33,6 +34,9 @@ export class Videojuego extends Entity {
 
   @hasMany(() => Oferta)
   ofertas: Oferta[];
+
+  @hasMany(() => Imagen)
+  imagenes: Imagen[];
 
   constructor(data?: Partial<Videojuego>) {
     super(data);

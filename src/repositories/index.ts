@@ -12,3 +12,5 @@ export * from './registro.repository';
 export * from './usuario.repository';
 export * from './videojuego.repository';
 
+export * from './publicidad.repository';
+export * from './imagen.repository';

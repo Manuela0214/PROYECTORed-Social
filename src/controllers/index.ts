@@ -23,3 +23,8 @@ export * from './videojuego-consola-juego.controller';
 export * from './videojuego-oferta.controller';
 export * from './videojuego.controller';
 
+export * from './publicidad.controller';
+export * from './file-upload.controller';
+export * from './file-download.controller';
+export * from './imagen-videojuego.controller';
+export * from './videojuego-imagen.controller';

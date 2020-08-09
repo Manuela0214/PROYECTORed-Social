@@ -14,3 +14,5 @@ export * from './sms-notification.model';
 export * from './usuario.model';
 export * from './videojuego.model';
 
+export * from './publicidad.model';
+export * from './imagen.model';
