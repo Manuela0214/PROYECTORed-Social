@@ -90,7 +90,7 @@ export class VideojuegoController {
   ): Promise<Videojuego[]> {
     return this.videojuegoRepository.find(filter);
   }
-
+  @authenticate('TokenAdminStrategy')
   @patch('/videojuego', {
     responses: {
       '200': {
@@ -131,7 +131,7 @@ export class VideojuegoController {
   ): Promise<Videojuego> {
     return this.videojuegoRepository.findById(id, filter);
   }
-
+  @authenticate('TokenAdminStrategy')
   @patch('/videojuego/{id}', {
     responses: {
       '204': {
@@ -152,7 +152,7 @@ export class VideojuegoController {
   ): Promise<void> {
     await this.videojuegoRepository.updateById(id, videojuego);
   }
-
+  @authenticate('TokenAdminStrategy')
   @put('/videojuego/{id}', {
     responses: {
       '204': {
@@ -166,7 +166,7 @@ export class VideojuegoController {
   ): Promise<void> {
     await this.videojuegoRepository.replaceById(id, videojuego);
   }
-
+  @authenticate('TokenAdminStrategy')
   @del('/videojuego/{id}', {
     responses: {
       '204': {

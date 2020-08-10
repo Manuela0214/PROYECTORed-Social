@@ -90,7 +90,7 @@ export class ConsolaController {
   ): Promise<Consola[]> {
     return this.consolaRepository.find(filter);
   }
-
+  @authenticate('TokenAdminStrategy')
   @patch('/consola', {
     responses: {
       '200': {
@@ -131,7 +131,7 @@ export class ConsolaController {
   ): Promise<Consola> {
     return this.consolaRepository.findById(id, filter);
   }
-
+  @authenticate('TokenAdminStrategy')
   @patch('/consola/{id}', {
     responses: {
       '204': {
@@ -152,7 +152,7 @@ export class ConsolaController {
   ): Promise<void> {
     await this.consolaRepository.updateById(id, consola);
   }
-
+  @authenticate('TokenAdminStrategy')
   @put('/consola/{id}', {
     responses: {
       '204': {

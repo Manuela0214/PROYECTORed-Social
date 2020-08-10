@@ -1,4 +1,4 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {Videojuego} from './videojuego.model';
 
 @model()
@@ -21,11 +21,11 @@ export class Oferta extends Entity {
     required: true,
   })
   enlaceTienda: string;
-
+  /*
   @property({
     type: 'string',
   })
-  idVideojuego?: string;
+  idVideojuego?: string;*/
 
   @belongsTo(() => Videojuego)
   videojuegoId: string;

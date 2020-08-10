@@ -71,8 +71,6 @@ export class CategoriaController {
     return this.categoriaRepository.count(where);
   }
 
-
-
   @get('/categoria', {
     responses: {
       '200': {
