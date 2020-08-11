@@ -37,6 +37,32 @@ export class AuthService {
     console.log("ERROR PERO DE QUE")
     return false;
   }
+  async VerifyUserToChangePassword(id: string, currentPassword: string): Promise<Registro | false> {
+    let registro = await this.registroRepository.findById(id);
+    if (registro) {
+      let cryptPass = new EncryptDecrypt(keys.LOGIN_CRYPT_METHOD).Encrypt(currentPassword);
+      if (registro.contrasena == cryptPass) {
+        return registro;
+      }
+      console.log("ENTRA AQUI")
+
+    }
+    console.log("ERROR PERO DE QUE")
+    return false;
+  }  
+  async ChangePassword(id: string, password: string): Promise<Boolean> {
+    //console.log(`Username: ${username} - Password: ${password}`);
+    let registro = await this.registroRepository.findById(id);
+    if (registro) {
+      let cryptPass = new EncryptDecrypt(keys.LOGIN_CRYPT_METHOD).Encrypt(password);
+      registro.contrasena = cryptPass;
+      await this.registroRepository.updateById(id, registro);
+      return true;
+    }
+    return false;
+  }
+
+
   /**
    *
    * @param registro
