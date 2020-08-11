@@ -21,6 +21,12 @@ class Credentials {
 
 }
 
+class ChangePasswordData {
+  id: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
 class PasswordResetData {
   nombre_usuario: string;
   type: number;
@@ -145,6 +151,22 @@ export class RegistroController {
 
   }
 
+  @post('/change-password', {
+    responses: {
+      '200': {
+        description: "Login for Users"
+      }
+    }
+  })
+  async changePassword(
+    @requestBody() changePasswordData: ChangePasswordData
+  ): Promise<Boolean> {
+    let user = await this.authService.VerifyUserToChangePassword(changePasswordData.id, changePasswordData.currentPassword);
+    if (user) {
+      return await this.authService.ChangePassword(changePasswordData.id, changePasswordData.newPassword);
+    }
+    throw new HttpErrors[400]("User not found");
+  }
 
 
 
