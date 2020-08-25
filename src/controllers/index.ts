@@ -29,3 +29,5 @@ export * from './file-download.controller';
 export * from './imagen-videojuego.controller';
 export * from './videojuego-imagen.controller';
 export * from './oferta.controller';
+export * from './imagen-usuario.controller';
+export * from './usuario-imagen.controller';

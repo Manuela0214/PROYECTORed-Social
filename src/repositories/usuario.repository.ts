@@ -1,11 +1,12 @@
 import {DefaultCrudRepository, repository, HasManyRepositoryFactory, HasOneRepositoryFactory} from '@loopback/repository';
-import {Usuario, UsuarioRelations, Amistad, Mensajes, Etiquetado, Registro} from '../models';
+import {Usuario, UsuarioRelations, Amistad, Mensajes, Etiquetado, Registro, Imagen} from '../models';
 import {MongodbDataSource} from '../datasources';
 import {inject, Getter} from '@loopback/core';
 import {AmistadRepository} from './amistad.repository';
 import {MensajesRepository} from './mensajes.repository';
 import {EtiquetadoRepository} from './etiquetado.repository';
 import {RegistroRepository} from './registro.repository';
+import {ImagenRepository} from './imagen.repository';
 
 export class UsuarioRepository extends DefaultCrudRepository<
   Usuario,
@@ -21,10 +22,14 @@ export class UsuarioRepository extends DefaultCrudRepository<
 
   public readonly registro: HasOneRepositoryFactory<Registro, typeof Usuario.prototype.id>;
 
+  public readonly imagenes: HasManyRepositoryFactory<Imagen, typeof Usuario.prototype.id>;
+
   constructor(
-    @inject('datasources.mongodb') dataSource: MongodbDataSource, @repository.getter('AmistadRepository') protected amistadRepositoryGetter: Getter<AmistadRepository>, @repository.getter('MensajesRepository') protected mensajesRepositoryGetter: Getter<MensajesRepository>, @repository.getter('EtiquetadoRepository') protected etiquetadoRepositoryGetter: Getter<EtiquetadoRepository>, @repository.getter('RegistroRepository') protected registroRepositoryGetter: Getter<RegistroRepository>,
+    @inject('datasources.mongodb') dataSource: MongodbDataSource, @repository.getter('AmistadRepository') protected amistadRepositoryGetter: Getter<AmistadRepository>, @repository.getter('MensajesRepository') protected mensajesRepositoryGetter: Getter<MensajesRepository>, @repository.getter('EtiquetadoRepository') protected etiquetadoRepositoryGetter: Getter<EtiquetadoRepository>, @repository.getter('RegistroRepository') protected registroRepositoryGetter: Getter<RegistroRepository>, @repository.getter('ImagenRepository') protected imagenRepositoryGetter: Getter<ImagenRepository>,
   ) {
     super(Usuario, dataSource);
+    this.imagenes = this.createHasManyRepositoryFactoryFor('imagenes', imagenRepositoryGetter,);
+    this.registerInclusionResolver('imagenes', this.imagenes.inclusionResolver);
     this.registro = this.createHasOneRepositoryFactoryFor('registro', registroRepositoryGetter);
     this.registerInclusionResolver('registro', this.registro.inclusionResolver);
     this.etiquetados = this.createHasManyRepositoryFactoryFor('etiquetados', etiquetadoRepositoryGetter,);

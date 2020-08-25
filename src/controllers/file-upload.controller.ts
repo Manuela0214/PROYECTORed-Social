@@ -174,7 +174,7 @@ export class FileUploadController {
       },
     },
   })
-  async productImagenUpload(
+  async videojuegoImagenUpload(
     @inject(RestBindings.Http.RESPONSE) response: Response,
     @param.query.string('videojuegoId') videojuegoId: typeof Videojuego.prototype.id,
     @param.query.number('order') order: number,
@@ -197,6 +197,56 @@ export class FileUploadController {
             path: filename,
             order: order,
             videojuegoId: videojuegoId ?? ''
+          });
+          await this.imagenRepository.create(img);
+        }
+        return {filename: filename};
+      }
+    }
+    return res;
+  }
+
+  /**
+   * Add a new image or replace another one that exists of a product
+   * @param request
+   * @param response
+   * @param usuarioId
+   * @param imageId if this parameter is empty then the images will be added, on the contrary it will be replaced
+   */
+  @post('/publicacionImagen', {
+    responses: {
+      200: {
+        content: {
+          'application/json': {
+          },
+        },
+        description: 'Publicacion Imagen',
+      },
+    },
+  })
+  async publicacionImagenUpload(
+    @inject(RestBindings.Http.RESPONSE) response: Response,
+    @param.query.string('usuarioId') usuarioId: typeof Usuario.prototype.id,
+    @param.query.number('order') order: number,
+    @param.query.string('imageId') imageId: typeof Imagen.prototype.id,
+    @requestBody.file() request: Request,
+  ): Promise<object | false> {
+    const productPath = path.join(__dirname, UploadFilesKeys.PUBLICACION_IMAGE_PATH);
+    let res = await this.StoreFileToPath(productPath, UploadFilesKeys.PUBLICACION_IMAGE_FIELDNAME, request, response, UploadFilesKeys.IMAGE_ACCEPTED_EXT);
+    if (res) {
+      const filename = response.req?.file.filename;
+      if (filename) {
+        let img: Imagen;
+        if (imageId) {
+          img = await this.imagenRepository.findById(imageId);
+          img.path = filename;
+          img.order = order;
+          await this.imagenRepository.replaceById(imageId, img);
+        } else {
+          img = new Imagen({
+            path: filename,
+            order: order,
+            usuarioId: usuarioId ?? ''
           });
           await this.imagenRepository.create(img);
         }

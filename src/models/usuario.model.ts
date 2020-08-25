@@ -4,6 +4,7 @@ import {Etiquetado} from './etiquetado.model';
 import {Mensajes} from './mensajes.model';
 import {Publicaciones} from './publicaciones.model';
 import {Registro} from './registro.model';
+import {Imagen} from './imagen.model';
 
 @model()
 export class Usuario extends Entity {
@@ -101,6 +102,9 @@ export class Usuario extends Entity {
 
   @hasOne(() => Registro)
   registro: Registro;
+
+  @hasMany(() => Imagen)
+  imagenes: Imagen[];
 
   constructor(data?: Partial<Usuario>) {
     super(data);

@@ -1,9 +1,8 @@
 import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
 import {Categoria} from './categoria.model';
 import {ConsolaJuego} from './consola-juego.model';
-import {Oferta} from './oferta.model';
-import {Publicaciones} from './publicaciones.model';
 import {Imagen} from './imagen.model';
+import {Oferta} from './oferta.model';
 
 @model()
 export class Videojuego extends Entity {
@@ -20,8 +19,6 @@ export class Videojuego extends Entity {
   })
   nombre: string;
 
-  @hasMany(() => Publicaciones)
-  publicaciones: Publicaciones[];
 
 
 
