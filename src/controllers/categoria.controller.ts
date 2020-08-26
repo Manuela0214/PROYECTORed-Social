@@ -9,7 +9,18 @@ import {
 } from '@loopback/repository';
 import {
   del, get,
-  getModelSchemaRef, param,
+  getModelSchemaRef,
+
+
+
+
+
+
+
+
+
+
+  HttpErrors, param,
 
 
   patch, post,
@@ -53,7 +64,13 @@ export class CategoriaController {
     })
     categoria: Omit<Categoria, 'id'>,
   ): Promise<Categoria> {
-    return this.categoriaRepository.create(categoria);
+    let currentConsola = await this.categoriaRepository.findOne({where: {nombre: categoria.nombre}});
+    if (currentConsola) {
+      throw new HttpErrors[401]("la consola ya existe");
+    } else {
+
+      return this.categoriaRepository.create(categoria);
+    }
   }
 
 

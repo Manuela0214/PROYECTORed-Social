@@ -3,7 +3,7 @@ import {
   CountSchema,
   Filter,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   del,
@@ -13,18 +13,15 @@ import {
   param,
   patch,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
-import {
-  Videojuego,
-  Imagen,
-} from '../models';
+import {Imagen, Videojuego} from '../models';
 import {VideojuegoRepository} from '../repositories';
 
 export class VideojuegoImagenController {
   constructor(
     @repository(VideojuegoRepository) protected videojuegoRepository: VideojuegoRepository,
-  ) { }
+  ) {}
 
   @get('/videojuegos/{id}/imagens', {
     responses: {
@@ -107,4 +104,7 @@ export class VideojuegoImagenController {
   ): Promise<Count> {
     return this.videojuegoRepository.imagenes(id).delete(where);
   }
+
+
+
 }
