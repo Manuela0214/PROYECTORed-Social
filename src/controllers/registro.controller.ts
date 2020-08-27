@@ -61,12 +61,12 @@ export class RegistroController {
     @requestBody() credentials: Credentials)
 
     : Promise<object> {
-    let registro = await this.authService.Identify(credentials.nombre_usuario, credentials.contrasena);
+    let data = await this.authService.Identify(credentials.nombre_usuario, credentials.contrasena);
     console.log(`usuario: ${credentials.nombre_usuario}contraseña: ${credentials.contrasena}`)
-    if (registro) {
-      let tk = await this.authService.GenerateToken(registro);
+    if (data) {
+      let tk = await this.authService.GenerateToken(data);
       return {
-        data: registro,
+        data: data,
         token: tk
       }
     } else {

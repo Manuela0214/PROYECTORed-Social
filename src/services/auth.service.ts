@@ -2,7 +2,7 @@ import {repository} from '@loopback/repository';
 import {generate as generator} from 'generate-password';
 import {PasswordKeys as passKeys} from '../keys/password-heys';
 import {ServiceKeys as keys} from '../keys/service-keys';
-import {Registro} from '../models';
+import {AuthenticatedUsuario, Registro} from '../models';
 import {RegistroRepository} from '../repositories';
 import {EncryptDecrypt} from './encrypt-decrypt.service';
 const jwt = require("jsonwebtoken");
@@ -22,14 +22,20 @@ export class AuthService {
    * @param nombre_usuario
    * @param contrasena
    */
-  async Identify(nombre_usuario: string, contrasena: string): Promise<Registro | false> {
+  async Identify(nombre_usuario: string, contrasena: string): Promise<AuthenticatedUsuario | false> {
     console.log(`${nombre_usuario}  Password : ${contrasena}`);
 
     let registro = await this.registroRepository.findOne({where: {nombre_usuario: nombre_usuario}});
     if (registro) {
       let cryptPass = new EncryptDecrypt(keys.LOGIN_CRYPT_METHOD).Encrypt(contrasena);
       if (registro.contrasena == cryptPass) {
-        return registro;
+        return new AuthenticatedUsuario({
+          id: registro.id,
+          usuarioId: registro.usuarioId,
+          rol: registro.rol,
+          nombre_usuario: registro.nombre_usuario
+
+        });
       }
       console.log("ENTRA AQUI")
 
@@ -49,7 +55,7 @@ export class AuthService {
     }
     console.log("ERROR PERO DE QUE")
     return false;
-  }  
+  }
   async ChangePassword(id: string, password: string): Promise<Boolean> {
     //console.log(`Username: ${username} - Password: ${password}`);
     let registro = await this.registroRepository.findById(id);
@@ -67,8 +73,7 @@ export class AuthService {
    *
    * @param registro
    */
-  async GenerateToken(registro: Registro) {
-    registro.contrasena = '';
+  async GenerateToken(registro: AuthenticatedUsuario) {
     let token = jwt.sign({
       exp: keys.TOKEN_EXPIRATION_TIME,
       data: {

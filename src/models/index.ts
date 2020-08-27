@@ -16,3 +16,4 @@ export * from './videojuego.model';
 
 export * from './publicidad.model';
 export * from './imagen.model';
+export * from './authenticated-usuario.model';
