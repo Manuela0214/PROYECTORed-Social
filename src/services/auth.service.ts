@@ -33,7 +33,8 @@ export class AuthService {
           id: registro.id,
           usuarioId: registro.usuarioId,
           rol: registro.rol,
-          nombre_usuario: registro.nombre_usuario
+          nombre_usuario: registro.nombre_usuario,
+          nombre: registro.nombre
 
         });
       }

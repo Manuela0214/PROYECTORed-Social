@@ -18,6 +18,7 @@ import {NotificationService} from '../services/notification.service';
 class Credentials {
   nombre_usuario: string;
   contrasena: string;
+  nombre: string;
 
 }
 

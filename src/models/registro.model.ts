@@ -28,6 +28,11 @@ export class Registro extends Entity {
   })
   contrasena: string;
 
+  @property({
+    type: 'string',
+  })
+  nombre?: string;
+
   @belongsTo(() => Usuario)
   usuarioId?: string;
 
