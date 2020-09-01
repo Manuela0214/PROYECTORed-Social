@@ -74,8 +74,10 @@ export class UsuarioController {
     //con password2 encriptamos por segunda vuelta, el primer cifrado
     let password2 = new EncryptDecrypt(keys.MD5).Encrypt(password1);
     let r = {
+
       nombre_usuario: u.email,
       contrasena: password2,
+      nombre: u.primer_nombre,
       rol: 1,
       usuarioId: u.id
 

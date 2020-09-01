@@ -17,6 +17,11 @@ export class AuthenticatedUsuario extends Model {
 
   @property({
     type: 'string',
+  })
+  nombre?: string;
+
+  @property({
+    type: 'string',
     required: true,
   })
   usuarioId: string;
